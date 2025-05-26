@@ -14,6 +14,7 @@ public class FormExerciseTest {
 
     @Test
     public void Login() {
+
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         driver.manage().window().maximize();
@@ -23,20 +24,13 @@ public class FormExerciseTest {
         WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@aria-label='login or signup']")));
         safeClick(driver, loginButton);
 
-        //Overlay Check
-        waitUntilOverlayDisappears(driver, wait);
-
         // Click "Sign Up" link
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[@class='v-toolbar__content'])[2]")));
         WebElement loginSignUpButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[normalize-space()='Sign Up'])[1]")));
         safeClick(driver, loginSignUpButton);
 
-        //Overlay Check
-        waitUntilOverlayDisappears(driver, wait);
-
         // Trigger validation by clicking Sign Up without input
         WebElement signUpButtonOnForm = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Sign Up']")));
-        waitUntilOverlayDisappears(driver, wait);
         safeClick(driver, signUpButtonOnForm);
 
         // Verify error messages
@@ -102,12 +96,4 @@ public class FormExerciseTest {
         element.sendKeys(value);
     }
 
-    // Wait for overlay disappearance
-    private void waitUntilOverlayDisappears(WebDriver driver, WebDriverWait wait) {
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".v-overlay--active")));
-        } catch (TimeoutException ignored) {
-
-        }
-    }
 }
