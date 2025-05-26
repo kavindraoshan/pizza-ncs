@@ -25,23 +25,25 @@ public class FormExerciseTest {
         safeClick(driver, loginButton);
 
         // Click "Sign Up" link
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[@class='v-toolbar__content'])[2]")));
-        WebElement loginSignUpButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//a[normalize-space()='Sign Up'])[1]")));
+        WebElement loginSignUpButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Sign Up']")));
         safeClick(driver, loginSignUpButton);
 
         // Trigger validation by clicking Sign Up without input
         WebElement signUpButtonOnForm = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Sign Up']")));
         safeClick(driver, signUpButtonOnForm);
 
-        // Verify error messages
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#username-err"))).getText(), "Username is required");
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#password-err"))).getText(), "Password is required");
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#confirm-err"))).getText(), "Please confirm your password");
 
         // Enter invalid inputs
-        driver.findElement(By.cssSelector("#input-91")).sendKeys("abc");
-        driver.findElement(By.cssSelector("#input-94")).sendKeys("abc");
-        driver.findElement(By.cssSelector("#input-97")).sendKeys("ab");
+        WebElement usernameField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-91")));
+        WebElement passwordField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-94")));
+        WebElement confirmPasswordField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-97")));
+
+        usernameField.sendKeys("abc");
+        passwordField.sendKeys("abc");
+        confirmPasswordField.sendKeys("ab");
         safeClick(driver, signUpButtonOnForm);
 
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#username-err"))).getText(), "Username must be minimum of 6 characters");
@@ -49,10 +51,6 @@ public class FormExerciseTest {
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#confirm-err"))).getText(), "Your passwords do not match");
 
         // Check existing username
-        WebElement usernameField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-91")));
-        WebElement passwordField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-94")));
-        WebElement confirmPasswordField = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-97")));
-
         clearAndSendKeys(usernameField, "donaldtrump");
         Assert.assertEquals(wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#username-err"))).getText(), "Username already exists");
 
