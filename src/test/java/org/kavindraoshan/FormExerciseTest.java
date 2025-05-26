@@ -17,7 +17,6 @@ public class FormExerciseTest {
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://d1zgi04j6ht6lv.cloudfront.net/#/");
 
         // Click the LOGIN/SIGNUP icon
